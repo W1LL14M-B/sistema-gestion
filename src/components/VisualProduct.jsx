@@ -30,6 +30,21 @@ const VisualProduct = () => {
       return products;
     }; 
 
+  // Función para mostrar solo el criterio seleccionado (name, date, price)
+  const renderProductInfo = (product) => {
+    switch (sortCriteria) {
+      case "name":
+        return product.name;
+      case "date":
+        return product.date;
+      case "price":
+        return `$${product.price}`;
+      default:
+        return null;
+    }
+  };
+  
+
 
   return (
     <div className="container">
@@ -46,6 +61,7 @@ const VisualProduct = () => {
           onChange={(e) => setSortCriteria(e.target.value)}
           className="form-select"
         >
+           <option value="seleccionar">Seleccionar</option>
           <option value="name">Nombre</option>
           <option value="date">Fecha Agregada</option>
           <option value="price">Precio</option>
@@ -57,7 +73,8 @@ const VisualProduct = () => {
         ) : (
           sortedProducts().map((product) => (
             <li key={product.id} className="list-group-item">
-              {product.name} - ${product.price} - {product.date}
+    
+         {renderProductInfo(product)}
             </li>
           ))
         )}

@@ -3,11 +3,11 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 
 const ProductContext = createContext();
 
-const defaultProducts = [
+/* const defaultProducts = [
   { id: 1, name: "Producto A", date: "2024-12-01", price: 25.99 },
   { id: 2, name: "Producto B", date: "2024-12-05", price: 15.75 },
 ];
-
+ */
 
 export const ProductProvider = ({ children }) => {
 
@@ -15,7 +15,7 @@ export const ProductProvider = ({ children }) => {
  const [products, setProducts] = useState(() => {
    
     const storedProducts = localStorage.getItem("products");
-    return storedProducts ? JSON.parse(storedProducts) : defaultProducts;
+    return storedProducts ? JSON.parse(storedProducts) : [];
   });
 
 
