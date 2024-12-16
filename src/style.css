@@ -2,3 +2,12 @@
     --ion-text-color: #000000; /* Texto principal */
     --ion-background-color: #ffffff; /* Fondo principal */
   }
+
+
+  .product-list {
+    margin-bottom: 1rem; /* Añade espacio entre la lista y el botón */
+  }
+  
+  .mt-3 {
+    margin-top: 1rem;
+  }

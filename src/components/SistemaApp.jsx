@@ -1,5 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState} from "react";
+import { useNavigate } from "react-router";
 
 import {
   IonApp,
@@ -8,7 +9,6 @@ import {
   IonHeader,
   IonToolbar,
   IonTitle,
-  IonButton,
   IonCardContent,
   IonList,
   IonItem,
@@ -22,26 +22,33 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
-import { useProducts } from "./hooks/ProductContex";
-import { useNavigate } from "react-router";
+import { useProducts } from "../hooks/ProductContex";
+
+
 
 
 
 const SistemaApp = () => {
   const {products,  addProduct, removeProduct } = useProducts();
-  const [newProduct, setNewProduct] = useState("");
+  const [newProduct, setNewProduct] = useState({
+    name:"",
+    date:"",
+    price:"",
 
-/*   const navigate = useNavigate();
+});
 
-  const handleNavigate = () => {
-    navigate('/visualproduct'); // Asegúrate de que esta ruta coincida con la definida en tu archivo de rutas
+  const navigate = useNavigate(); 
+
+  const handleGoBack = () => {
+    navigate(-1); 
   };
- */
+
+
 
   const handleAddProduct = () => {
-    if (newProduct.trim()) {
-      addProduct({ id: Date.now(), name: newProduct });
-      setNewProduct(""); 
+    if (newProduct.name.trim() && newProduct.date.trim() && newProduct.price.trim()) {
+      addProduct({ id: Date.now(), ...newProduct });
+      setNewProduct({ name: "", date: "", price: "" }); // Limpiar los campos después de agregar el producto
     }
   };
 
@@ -58,12 +65,29 @@ const SistemaApp = () => {
             </IonToolbar>
           </IonHeader>
           <IonCardContent>
-            <input
+        
+
+<input
               type="text"
               className="form-control mb-3 w-50"
-              placeholder="Agregar producto"
-              value={newProduct}
-              onChange={(e) => setNewProduct(e.target.value)}
+              placeholder="Nombre del producto"
+              value={newProduct.name}
+              onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
+            />
+    
+            <input
+              type="date"
+              className="form-control mb-3 w-50"
+              value={newProduct.date}
+              onChange={(e) => setNewProduct({ ...newProduct, date: e.target.value })}
+            />
+      
+            <input
+              type="number"
+              className="form-control mb-3 w-50"
+              placeholder="Precio del producto"
+              value={newProduct.price}
+              onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
             />
           
             <button
@@ -72,11 +96,14 @@ const SistemaApp = () => {
             >
               Agregar Producto
             </button>
-            <IonList>
+
+
+            <IonList className="product-container d-flex align-items-center">
             
               {products.map((product) => (
                  <IonItem key={product.id} className="d-flex justify-content-between align-items-center">
-                <span>{product.name}</span>
+    
+           <span>{product.name} - {product.date} - ${product.price}</span>
               
                    <button
                     className="btn btn-danger btn-sm"
@@ -86,9 +113,9 @@ const SistemaApp = () => {
                     Eliminar
                   </button> 
                 </IonItem>
-              ))}
+              ))} 
             </IonList>
-          {/*   <IonButton onClick={handleNavigate}>Deseados</IonButton> */}
+        <button  className="btn btn-primary mt-3" onClick={handleGoBack} >regresar</button>
           </IonCardContent>
         </IonCard>
       </IonContent>
@@ -96,4 +123,4 @@ const SistemaApp = () => {
   );
 };
 
-export default SistemaApp;
+export default SistemaApp; 
